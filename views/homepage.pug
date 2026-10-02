@@ -1,0 +1,21 @@
+doctype html
+html 
+    head 
+        title= `${title}`
+        meta(name="viewport" content="width=device-width, initial-scale=1")
+        link(rel="stylesheet", href="/css/style.css")
+    body    
+        h1 Animals
+        a(href="/update-cobj") Add to this table
+        table
+            thead
+                tr
+                    th Name
+                    th Species
+                    th Environment
+            tbody
+                each animal in data
+                    tr
+                        td #{animal.properties.name}
+                        td #{animal.properties.species}
+                        td #{animal.properties.environment}
