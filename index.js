@@ -14,7 +14,7 @@ const PRIVATE_APP_ACCESS = process.env.PRIVATE_APP_ACCESS;
 
 // * Code for Route 1 goes here
 app.get('/', (req, res) => {
-    res.render('contacts', { title: 'Home | HubSpot APIs' });
+    res.render('index', { title: 'Home | HubSpot APIs' });
 });
 
 // TODO: ROUTE 2 - Create a new app.get route for the form to create or update new custom object data. Send this data along in the next route.
@@ -27,8 +27,27 @@ app.get("/update-cobj", (req, res) => {
 // TODO: ROUTE 3 - Create a new app.post route for the custom objects form to create or update your custom object data. Once executed, redirect the user to the homepage.
 
 // * Code for Route 3 goes here
-app.post("/update-cobj", (req, res) => {
-    res.redirect('/');
+app.post("/update-cobj", async (req, res) => {
+    const createAnimal = {
+        properties: {
+            name: req.body.name,
+            species: req.body.species,
+            environment: req.body.environment
+        }
+    };
+
+    const createCObjRecord = 'https://api.hubapi.com/crm/v3/objects/2-70246374';
+    const headers = {
+        Authorization: `Bearer ${PRIVATE_APP_ACCESS}`,
+        'Content-Type': 'application/json'
+    };
+
+    try {
+        await axios.post(createCObjRecord, createAnimal, { headers });
+        res.redirect('/');
+    } catch (err) {
+        console.error(err);
+    }
 });
 
 /** 
